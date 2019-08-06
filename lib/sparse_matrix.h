@@ -18,9 +18,8 @@ class SparseMatrix {
 
   void insert(int row, int col, T& value);
 
-  SparseMatrix<T> operator *(SparseMatrix<T>& a);
-
-  SparseMatrix<T> operator +(SparseMatrix<T>& a);
+  // For AX where A is a sparse matrix and X is a column vector.
+  SparseMatrix<T> ProductByColumnVector(std::vector<T> v);
 
   SparseMatrix<T> KroneckerProduct(SparseMatrix<T>& a);
 
