@@ -40,6 +40,45 @@ void SparseMatrix<T>::insert(int row, int col, const T& value) {
   cols_[col].push_back(std::pair<int, T>(row, value));
 }
 
-// Implement matrix multiplication and kronecker product here and delete the comment.
+template <class T>
+std::vector<T> SparseMatrix<T>::ProductByColumnVector(const std::vector<T>& v) {
+  if(cols_.size()!=v.size()) {
+    return NULL;
+  }
+  std::vector<int> product;
+  for(int i=0;i<rows_.size();i++) {
+    T sum = 0;
+    for(int j=0;j<rows_[i].size();j++) {
+      int col = rows_[i][j].first;
+      T value = rows_[i][j].second;
+      sum += value*v[j];
+    }
+    product.push_back(sum);
+  }
+  return product;
+}
+
+template <class T> 
+SparseMatrix<T> SparseMatrix<T>::KroneckerProduct(const SparseMatrix<T>& a) {
+  SparseMatrix<T> sp(rows_.size()*a.rows_.size(),
+    cols_.size()*a.cols_size());
+  for(int i=0;i<rows_.size();i++) {
+    for(int j=0;j<rows_[i].size();j++) {
+      int col = rows_[i][j].first;
+      T value = rows_[i][j].second;
+
+      // copy matrix a multiplied by value at (i,j) in matrix sp.
+      for(int k=0;k<a.rows_.size();k++) {
+        int new_row = i*a.rows_.size()+k;
+        for(int l=0;l<a.rows_[i].size();l++) {
+          int new_col = col*a.cols_.size()+a.rows_[i][j].first;
+          int new_value = value*a.rows_[i][j].second;
+          sp.insert(new_row, new_col, new_value);
+        }
+      }
+    }
+  }
+  return sp;
+}
 
 }  // namespace lib

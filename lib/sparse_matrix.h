@@ -20,7 +20,7 @@ class SparseMatrix {
 
   void insert(int row, int col, const T& value);
 
-  // For AX where A is a sparse matrix and X is a column vector.
+  // For A*X where A is a sparse matrix and X is a column vector.
   std::vector<T> ProductByColumnVector(const std::vector<T>& v);
 
   SparseMatrix<T> KroneckerProduct(const SparseMatrix<T>& a);
