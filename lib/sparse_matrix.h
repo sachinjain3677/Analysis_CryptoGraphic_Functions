@@ -8,6 +8,8 @@ template <class T>
 class SparseMatrix {
  public:
 
+  static SparseMatrix<T> IdentityMatrix(int n);
+
   SparseMatrix(int rows, int cols);
 
   ~SparseMatrix();
@@ -16,12 +18,12 @@ class SparseMatrix {
 
   std::vector<std::pair<int, T> > cols(int col);
 
-  void insert(int row, int col, T& value);
+  void insert(int row, int col,const T& value);
 
   // For AX where A is a sparse matrix and X is a column vector.
-  SparseMatrix<T> ProductByColumnVector(std::vector<T> v);
+  std::vector<double> ProductByColumnVector(const std::vector<double>& v);
 
-  SparseMatrix<T> KroneckerProduct(SparseMatrix<T>& a);
+  SparseMatrix<T> KroneckerProduct(const SparseMatrix<T>& a);
 
  private:
 
