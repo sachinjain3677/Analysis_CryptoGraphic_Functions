@@ -21,10 +21,10 @@ std::vector<T> FastWalshTransform(std::vector<T> v) {
 
   // Initialising H_1.
   SparseMatrix<T> H_1(2,2);
-  H_1.insert(0, 0, 1.0);
-  H_1.insert(0, 1, 1.0);
-  H_1.insert(1, 0, 1.0);
-  H_1.insert(1, 1, -1.0);
+  H_1.insert(0, 0, 1);
+  H_1.insert(0, 1, 1);
+  H_1.insert(1, 0, 1);
+  H_1.insert(1, 1, -1);
   // Hn = Mn(1)*Mn(2)*...Mn(n)
   // W(f) = Hn*f
   // Iterating over Mn(i)s and taking product with vector v. 
