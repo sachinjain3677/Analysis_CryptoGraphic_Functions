@@ -39,6 +39,6 @@ std::vector<T> FastWalshTransform(std::vector<T> v) {
   return v;
 }
 
-} // namespace lib
+}  // namespace lib
 
 #endif

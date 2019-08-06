@@ -12,13 +12,13 @@ class SparseMatrix {
 
   SparseMatrix(int rows, int cols);
 
-  ~SparseMatrix();
+  ~SparseMatrix() {}
 
-  std::vector<std::pair<int, T> > rows(int row);
+  const std::vector<std::pair<int, T> > rows(int row);
 
-  std::vector<std::pair<int, T> > cols(int col);
+  const std::vector<std::pair<int, T> > cols(int col);
 
-  void insert(int row, int col,const T& value);
+  void insert(int row, int col, const T& value);
 
   // For AX where A is a sparse matrix and X is a column vector.
   std::vector<T> ProductByColumnVector(const std::vector<T>& v);
@@ -32,6 +32,6 @@ class SparseMatrix {
   std::vector<std::vector<std::pair<int, T> > > cols_;
 };
 
-} // namespace lib
+}  // namespace lib
 
 #endif
