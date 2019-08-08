@@ -1,4 +1,4 @@
-#include "../lib/walsh_transform.h"
+#include "lib/walsh_transform.h"
 
 #include<iostream>
 
