@@ -1,8 +1,9 @@
+// TODO(): Link this file.
 #include "sparse_matrix.h"
 
 #include <cstddef>
 
-namespace lib {
+using ::lib::SparseMatrix;
 
 template <class T>
 SparseMatrix<T>::SparseMatrix(int n, int m) {
@@ -12,16 +13,18 @@ SparseMatrix<T>::SparseMatrix(int n, int m) {
 
 template <class T>
 SparseMatrix<T> SparseMatrix<T>::IdentityMatrix(int n) {
-  SparseMatrix<T> Id(n,n);
+  SparseMatrix<T> Id(n, n);
   for(int i=0;i<n;i++) {
     Id.insert(i, i, 1);
   }
+  return Id;
 }
 
 template <class T>
 const std::vector<std::pair<int, T> > SparseMatrix<T>::rows(int row) {
   if(row>=rows_.size()) {
-    return NULL;
+    std::vector<std::pair<int, T> > null;
+    return null;
   }
   return rows_[row];
 }
@@ -29,7 +32,8 @@ const std::vector<std::pair<int, T> > SparseMatrix<T>::rows(int row) {
 template <class T>
 const std::vector<std::pair<int, T> > SparseMatrix<T>::cols(int col) {
   if(col>=cols_.size()) {
-    return NULL;
+    std::vector<std::pair<int, T> > null;
+    return null;;
   }
   return cols_[col];
 }
@@ -43,7 +47,8 @@ void SparseMatrix<T>::insert(int row, int col, const T& value) {
 template <class T>
 std::vector<T> SparseMatrix<T>::ProductByColumnVector(const std::vector<T>& v) {
   if(cols_.size()!=v.size()) {
-    return NULL;
+    std::vector<T> null;
+    return null;
   }
   std::vector<int> product;
   for(int i=0;i<rows_.size();i++) {
@@ -51,7 +56,7 @@ std::vector<T> SparseMatrix<T>::ProductByColumnVector(const std::vector<T>& v) {
     for(int j=0;j<rows_[i].size();j++) {
       int col = rows_[i][j].first;
       T value = rows_[i][j].second;
-      sum += value*v[j];
+      sum += value*v[col];
     }
     product.push_back(sum);
   }
@@ -61,7 +66,7 @@ std::vector<T> SparseMatrix<T>::ProductByColumnVector(const std::vector<T>& v) {
 template <class T> 
 SparseMatrix<T> SparseMatrix<T>::KroneckerProduct(const SparseMatrix<T>& a) {
   SparseMatrix<T> sp(rows_.size()*a.rows_.size(),
-    cols_.size()*a.cols_size());
+    cols_.size()*a.cols_.size());
   for(int i=0;i<rows_.size();i++) {
     for(int j=0;j<rows_[i].size();j++) {
       int col = rows_[i][j].first;
@@ -70,9 +75,9 @@ SparseMatrix<T> SparseMatrix<T>::KroneckerProduct(const SparseMatrix<T>& a) {
       // copy matrix a multiplied by value at (i,j) in matrix sp.
       for(int k=0;k<a.rows_.size();k++) {
         int new_row = i*a.rows_.size()+k;
-        for(int l=0;l<a.rows_[i].size();l++) {
-          int new_col = col*a.cols_.size()+a.rows_[i][j].first;
-          int new_value = value*a.rows_[i][j].second;
+        for(int l=0;l<a.rows_[k].size();l++) {
+          int new_col = col*a.cols_.size()+a.rows_[k][l].first;
+          int new_value = value*a.rows_[k][l].second;
           sp.insert(new_row, new_col, new_value);
         }
       }
@@ -80,5 +85,3 @@ SparseMatrix<T> SparseMatrix<T>::KroneckerProduct(const SparseMatrix<T>& a) {
   }
   return sp;
 }
-
-}  // namespace lib

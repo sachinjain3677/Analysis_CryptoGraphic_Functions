@@ -10,7 +10,7 @@ std::vector<T> FastWalshTransform(std::vector<T> v) {
   // size of input vector.
   int temp = v.size();
   int n=0;
-  while(temp) {
+  while(temp!=1) {
     temp/=2;
     n++;
   }
@@ -18,7 +18,6 @@ std::vector<T> FastWalshTransform(std::vector<T> v) {
   while(v.size() != N) {
     v.push_back(0.0);
   }
-
   // Initialising H_1.
   SparseMatrix<T> H_1(2,2);
   H_1.insert(0, 0, 1);
