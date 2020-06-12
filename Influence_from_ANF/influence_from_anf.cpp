@@ -1,10 +1,11 @@
 #include<bits/stdc++.h>
 #define ll long long int 
+#define ld long double
 
 using namespace std;
 
-int weight(string s){
-	int res = 0, l = s.length();
+ld weight(string s){
+	ld res = 0, l = s.length();
 	for (int i = 0; i < l; ++i)
 	{
 		if(s[i]=='1')
@@ -34,20 +35,20 @@ int mu(string tstr, vector<vector<int>>& supAg, int m){
 }
 
 
-void traverse(string str, unordered_map<string, ll>& mp, int& p, int& m, vector<vector<int>>& supAg){
+void traverse(string str, unordered_map<string, ld>& mp, int& p, int& m, vector<vector<int>>& supAg){
 	int l = str.length();
 	string prev = str;
 	for (int i = l; i < p; ++i)
 	{
 		string tstr = prev + "1";
 		if( mu(tstr, supAg, m) < m){
-			int wt = weight(tstr);
+			ld wt = weight(tstr);
 
 			if( mp.find(tstr) == mp.end()){
-				mp[tstr] = pow(-2, wt);
+				mp[tstr] = pow(-2.0, wt);
 			}
 			else{
-				mp[tstr] += pow(-2, wt);
+				mp[tstr] += pow(-2.0, wt);
 			}
 
 			if(tstr.length() < p)
@@ -76,9 +77,14 @@ int main(){
     freopen("output.txt", "w", stdout);
     #endif
 
-    int p, m;cin>>p>>m;
+    int p, m;
+    cout<<"Enter the size of support function of Af where Af is ANF of function f: "<<endl;
+    cin>>p;
+    cout<<"Enter the input size of function f: "<<endl;
+    cin>>m;
 	vector<vector<int>> supAf(p, vector<int>(m));
 
+	cout<<"Enter each entry of support function in binary form:"<<endl;
 	for(int i=0;i<p;++i){
 		for (int j = 0; j < m; ++j)
 		{
@@ -86,6 +92,7 @@ int main(){
 		}
 	}
 
+	cout<<"Enter the variable whose influence needs to be calculated: "<<endl;
 	int u, size_of_supAg= 0; 
 	cin>>u;
 
@@ -119,40 +126,34 @@ int main(){
 
 	vector<int> v(m,0);
 	int v_weight = 0;
-	// for (int i = 0; i < m; ++i)
-	// {
-	// 	cin>>v[i];
-	// 	if(v[i])
-	// 		v_weight++;
-	// }
 
-	unordered_map<string,ll> mp;
+	unordered_map<string,ld> mp;
 
 	traverse("", mp, p, m, supAg);
 
-	vector<ll> B(m,0);
-	ll bb = 0;
+	vector<ld> B(m,0);
+	ld bb = 0;
 
 	for(auto pair: mp){
-		int wt = weight(pair.first);
+		ld wt = weight(pair.first);
 		B[wt] = B[wt] + pair.second;
 		
 		if(psi(pair.first, v) ==0 )
-			bb = bb + pair.second / pow(2, wt);
+			bb = bb + pair.second / pow(2.0, wt);
 	}
 
-	int cv = pow(-1,p) -1;
+	ld cv = pow(-1,p) -1;
 	
 	for (int i = 0; i < m; ++i){
 		cv -= B[i];
 	}
 
-	cv = cv/pow(2,m) + bb;
+	cv = cv/pow(2.0,m) + bb;
 	cv = pow(-1,v_weight)*cv;
 
 	//influence = (-cv)/2;
 
-	cout<<"influence of variable u on function f = "<< -1*(cv/2.0)<<endl;
+	cout<<"Influence of variable u on function f = "<< -1*(cv/2.0)<<endl;
 
 	return 0;
 }
